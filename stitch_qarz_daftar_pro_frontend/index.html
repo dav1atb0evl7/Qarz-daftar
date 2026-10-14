@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Qarz Daftar Pro — Enterprise Ledger</title>
+  
+  <!-- Fonts & Material Symbols -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+  
+  <!-- Tailwind CSS CDN (deferred so it never blocks page load) -->
+  <script src="https://cdn.tailwindcss.com" defer></script>
+  
+  <!-- Sovereign Ledger Custom CSS -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-slate-50 font-sans text-slate-900 antialiased unauthenticated">
+
+  <!-- ========================================== -->
+  <!-- 1. FIXED COMMAND SIDEBAR (Dark Navy #0B132B) -->
+  <!-- ========================================== -->
+  <aside class="fixed left-0 top-0 h-full w-72 bg-[#0B132B] z-50 flex flex-col justify-between shadow-xl">
+    <div class="flex flex-col flex-1 min-h-0">
+      
+      <!-- Brand & Shop Header -->
+      <div class="p-6 flex flex-col gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-blue-600 flex items-center justify-center text-white shadow-md">
+            <span class="material-symbols-outlined text-2xl">account_balance_wallet</span>
+          </div>
+          <div class="flex flex-col">
+            <div class="flex items-center gap-2">
+              <span class="font-display font-bold text-lg text-white">Qarz Daftar</span>
+              <span class="px-1.5 py-0.5 rounded bg-blue-500/20 text-blue-400 font-semibold text-[11px] border border-blue-500/30">PRO</span>
+            </div>
+            <span class="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">Enterprise Ledger</span>
+          </div>
+        </div>
+
+        <!-- Active Store Switcher -->
+        <div onclick="openShopSelectorModal()" class="mt-2 p-2.5 rounded-xl bg-slate-900/80 border border-slate-800 flex items-center justify-between text-slate-300 cursor-pointer hover:border-slate-700 transition-colors" title="Do'konni tanlash yoki yangi qo'shish">
+          <div class="flex items-center gap-2.5 min-w-0">
+            <span class="material-symbols-outlined text-blue-400 text-lg">storefront</span>
+            <div class="flex flex-col min-w-0">
+              <span class="text-xs font-semibold text-white truncate shop-name-display">Do'kon tanlanmagan</span>
+              <span class="text-[11px] text-slate-400 truncate branch-name-display">-</span>
+            </div>
+          </div>
+          <span class="material-symbols-outlined text-slate-500 text-sm">unfold_more</span>
+        </div>
+      </div>
+
+      <!-- Navigation Links -->
+      <div class="flex-1 overflow-y-auto px-4 py-2 space-y-6">
+        <div>
+          <div class="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">Asosiy Bo'limlar</div>
+          <nav class="space-y-1">
+            <a href="#" data-path="boshqaruv-paneli" class="flex items-center justify-between px-3 py-2.5 rounded-xl transition-all group bg-blue-600 text-white shadow-sm font-semibold">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-lg">dashboard</span>
+                <span class="text-sm">Boshqaruv paneli</span>
+              </div>
+            </a>
+            
+            <a href="#" data-path="mijozlar" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-lg">group</span>
+                <span class="text-sm">Mijozlar</span>
+              </div>
+              <span id="customers-count-badge" class="px-2 py-0.5 rounded bg-slate-800 text-slate-300 text-xs font-semibold font-tabular">0</span>
+            </a>
+
+            <a href="#" data-path="qarzlar" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-lg">receipt_long</span>
+                <span class="text-sm">Qarzlar</span>
+              </div>
+              <span id="debts-count-badge" class="px-2 py-0.5 rounded bg-red-950/60 text-red-300 text-xs font-semibold font-tabular border border-red-800/40">0</span>
+            </a>
+
+            <a href="#" data-path="tolovlar" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-lg">payments</span>
+                <span class="text-sm">To'lovlar</span>
+              </div>
+              <span id="payments-count-badge" class="px-2 py-0.5 rounded bg-emerald-950/60 text-emerald-300 text-xs font-semibold font-tabular border border-emerald-800/40">0</span>
+            </a>
+
+            <a href="#" data-path="hisobotlar" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-lg">query_stats</span>
+                <span class="text-sm">Hisobotlar</span>
+              </div>
+            </a>
+          </nav>
+        </div>
+
+        <div>
+          <div class="px-3 mb-2 text-[11px] font-bold uppercase tracking-wider text-slate-400">Boshqaruv & Integratsiya</div>
+          <nav class="space-y-1">
+            <a href="#" data-path="telegram" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-lg text-sky-400">send</span>
+                <span class="text-sm">Telegram Bot</span>
+              </div>
+              <span class="px-1.5 py-0.5 rounded bg-sky-950 text-sky-400 text-[10px] font-bold uppercase">aiogram 3</span>
+            </a>
+
+            <a href="#" data-path="sozlamalar" class="flex items-center justify-between px-3 py-2.5 rounded-xl text-slate-400 hover:bg-slate-800 hover:text-white transition-all group">
+              <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-lg">settings</span>
+                <span class="text-sm">Sozlamalar</span>
+              </div>
+            </a>
+          </nav>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Action & User Profile Footer -->
+    <div class="p-4 bg-slate-900 border-t border-slate-800 flex flex-col gap-3">
+      <button onclick="openNewDebtModal()" type="button" class="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-blue-600 text-white text-sm font-semibold shadow hover:bg-blue-500 transition-all">
+        <span class="material-symbols-outlined text-lg">add_circle</span>
+        <span>Yangi Qarz Bitimi</span>
+      </button>
+
+      <div class="flex items-center justify-between p-2 rounded-xl bg-slate-800/60">
+        <div class="flex items-center gap-2.5 min-w-0">
+          <div id="user-avatar-initials" class="w-8 h-8 rounded-full bg-blue-500 text-white font-bold flex items-center justify-center text-xs">
+            U
+          </div>
+          <div class="flex flex-col min-w-0">
+            <span class="text-xs font-semibold text-white truncate user-name-display">Kirilmagan</span>
+            <span class="text-[11px] text-slate-400 truncate user-role-display">-</span>
+          </div>
+        </div>
+        <button onclick="handleLogout()" type="button" class="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-colors" title="Tizimdan chiqish / Kirish">
+          <span class="material-symbols-outlined text-lg">logout</span>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================== -->
+  <!-- 2. MAIN WORKSPACE CONTAINER -->
+  <!-- ========================================== -->
+  <div class="pl-72">
+    
+    <!-- Top Sticky Header Bar -->
+    <header class="fixed top-0 left-72 right-0 h-16 bg-white/95 backdrop-blur border-b border-slate-200 z-40 flex items-center justify-between px-8 shadow-sm">
+      <div class="flex items-center gap-4 flex-1 max-w-xl">
+        <div class="relative w-full flex items-center">
+          <span class="material-symbols-outlined absolute left-3 text-slate-400 text-lg">search</span>
+          <input oninput="filterCustomers(this.value)" type="text" placeholder="Mijoz ismi, telefon raqami yoki qarz ID..." class="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-100 text-sm text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20">
+        </div>
+      </div>
+
+      <div class="flex items-center gap-4">
+        <!-- Live API status indicator -->
+        <div id="server-status-badge"></div>
+
+        <!-- Quick Top Actions -->
+        <button onclick="openModal('modal-new-payment')" type="button" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-600 text-white text-xs font-semibold shadow-sm hover:bg-emerald-700 transition-all">
+          <span class="material-symbols-outlined text-base">add_card</span>
+          <span>+ To'lov Qabul Qilish</span>
+        </button>
+
+        <button onclick="openModal('modal-new-customer')" type="button" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-blue-50 text-blue-700 border border-blue-200 text-xs font-semibold hover:bg-blue-100 transition-all">
+          <span class="material-symbols-outlined text-base">person_add</span>
+          <span>+ Mijoz</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- Dynamic Content Area -->
+    <main class="pt-16 p-8 min-h-screen">
+
+      <!-- ========================================== -->
+      <!-- VIEW 1: BOSHQARUV PANELI (DASHBOARD) -->
+      <!-- ========================================== -->
+      <section id="view-boshqaruv-paneli" class="view-panel active space-y-6">
+        
+        <!-- Header Row -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="font-display text-2xl font-bold text-slate-900">Boshqaruv Paneli</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Savdo markazi bo'yicha jonli moliyaviy ko'rsatkichlar va qarzlar holati</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="exportReport('debts', 'xlsx')" type="button" class="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-700 text-xs font-semibold shadow-sm hover:bg-slate-50 transition-all">
+              <span class="material-symbols-outlined text-base text-slate-500">file_download</span>
+              <span>Excel Eksport</span>
+            </button>
+            <button onclick="openNewDebtModal()" type="button" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold shadow-md hover:bg-blue-500 transition-all">
+              <span class="material-symbols-outlined text-base">add_circle</span>
+              <span>+ Yangi Qarz</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 High-Contrast KPI Cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+          <!-- KPI 1 -->
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Jami Qaytarilmagan Qarz</span>
+                <div class="flex items-baseline gap-1 mt-1.5">
+                  <span id="kpi-total-debt" class="font-display text-2xl font-extrabold text-slate-900 font-tabular">0</span>
+                  <span class="text-xs font-bold text-slate-400 uppercase">UZS</span>
+                </div>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl">account_balance_wallet</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="text-emerald-600 font-semibold flex items-center gap-0.5">
+                <span class="material-symbols-outlined text-sm">trending_up</span> Jonli ma'lumot
+              </span>
+              <span>-</span>
+            </div>
+          </div>
+
+          <!-- KPI 2 -->
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Undirilgan To'lovlar</span>
+                <div class="flex items-baseline gap-1 mt-1.5">
+                  <span id="kpi-month-collected" class="font-display text-2xl font-extrabold text-emerald-600 font-tabular">0</span>
+                  <span class="text-xs font-bold text-emerald-600 uppercase">UZS</span>
+                </div>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl">check_circle</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="text-emerald-600 font-semibold font-tabular">Fiskal kassa tushumi</span>
+              <span>100% himoyalangan</span>
+            </div>
+          </div>
+
+          <!-- KPI 3 -->
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Muddati O'tgan Qarzlar</span>
+                <div class="flex items-baseline gap-1 mt-1.5">
+                  <span id="kpi-overdue-debt" class="font-display text-2xl font-extrabold text-red-600 font-tabular">0</span>
+                  <span class="text-xs font-bold text-red-600 uppercase">UZS</span>
+                </div>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-red-50 text-red-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl">warning</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="text-red-600 font-semibold flex items-center gap-0.5">
+                <span class="material-symbols-outlined text-sm">schedule</span> Diqqat talab
+              </span>
+              <span>Eslatmalar faol</span>
+            </div>
+          </div>
+
+          <!-- KPI 4 -->
+          <div class="p-5 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-start justify-between">
+              <div>
+                <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400">Jami Faol Mijozlar</span>
+                <div class="flex items-baseline gap-1 mt-1.5">
+                  <span id="kpi-total-customers" class="font-display text-2xl font-extrabold text-slate-900 font-tabular">0</span>
+                  <span class="text-xs text-slate-400">nafar</span>
+                </div>
+              </div>
+              <div class="w-10 h-10 rounded-xl bg-purple-50 text-purple-600 flex items-center justify-center">
+                <span class="material-symbols-outlined text-xl">group</span>
+              </div>
+            </div>
+            <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+              <span class="text-purple-600 font-semibold font-tabular">Kredit limiti bilan</span>
+              <span>Portfel to'liq</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Analytical Charts & Aging Breakdown -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          
+          <!-- Dynamic Trend SVG Visual -->
+          <div class="lg:col-span-8 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-4">
+              <div>
+                <h2 class="font-display font-bold text-base text-slate-900">To'lovlar va Qarzlar Dinamikasi</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Oylik tushumlar va yangi qarz berilish tendensiyasi</p>
+              </div>
+              <div class="flex items-center gap-3 text-xs">
+                <span class="flex items-center gap-1.5 text-slate-600">
+                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span> To'lovlar
+                </span>
+                <span class="flex items-center gap-1.5 text-slate-600">
+                  <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span> Berilgan qarz
+                </span>
+              </div>
+            </div>
+
+            <!-- SVG Graphic Visualization -->
+            <div class="h-60 w-full relative flex items-end pt-4">
+              <svg class="w-full h-full" viewBox="0 0 500 200" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#2563EB" stop-opacity="0.2"/>
+                    <stop offset="100%" stop-color="#2563EB" stop-opacity="0.0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M 0 160 Q 100 130 200 110 T 350 70 T 500 90 L 500 200 L 0 200 Z" fill="url(#chartGrad)"/>
+                <path d="M 0 160 Q 100 130 200 110 T 350 70 T 500 90" fill="none" stroke="#2563EB" stroke-width="3" stroke-linecap="round"/>
+              </svg>
+              <div class="absolute inset-0 flex justify-between items-end px-4 text-xs font-semibold text-slate-400 pb-1">
+                <span>May</span><span>Iyun</span><span>Iyul</span><span>Avg</span><span>Sen</span><span class="text-blue-600 font-bold">Okt (Hozir)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Debt Aging Distribution (Kechikish tahlili) -->
+          <div class="lg:col-span-4 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div>
+              <h2 class="font-display font-bold text-base text-slate-900">Qarzlar Yoshi Tahlili</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Muddat bo'yicha xavf toifalariga taqsimot</p>
+            </div>
+
+            <div class="space-y-4 my-4">
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-600">0 — 30 kun (Me'yorda)</span>
+                  <span id="aging-val-0-30" class="font-semibold text-slate-900 font-tabular">0 UZS</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                  <div id="aging-bar-0-30" class="h-full bg-emerald-500 rounded-full" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-600">31 — 60 kun (Kechikkan)</span>
+                  <span id="aging-val-31-60" class="font-semibold text-amber-700 font-tabular">0 UZS</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                  <div id="aging-bar-31-60" class="h-full bg-amber-500 rounded-full" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-600">61 — 90 kun (Xatarli)</span>
+                  <span id="aging-val-61-90" class="font-semibold text-orange-700 font-tabular">0 UZS</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                  <div id="aging-bar-61-90" class="h-full bg-orange-500 rounded-full" style="width: 0%;"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between text-xs mb-1">
+                  <span class="text-slate-600">90+ kun (Muammoli)</span>
+                  <span id="aging-val-90-plus" class="font-semibold text-red-700 font-tabular">0 UZS</span>
+                </div>
+                <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                  <div id="aging-bar-90-plus" class="h-full bg-red-500 rounded-full" style="width: 0%;"></div>
+                </div>
+              </div>
+            </div>
+
+            <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-500">
+              <span class="font-semibold text-slate-700">Tavsiya:</span> Muddati o'tgan mijozlarga avtomatik SMS eslatma jo'natish tavsiya etiladi.
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Debts Table -->
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="font-display font-bold text-base text-slate-900">So'nggi Qarz Bitimlari</h2>
+              <p class="text-xs text-slate-400 mt-0.5">Oxirgi amalga oshirilgan operatsiyalar reyestri</p>
+            </div>
+            <button onclick="switchTab('qarzlar')" class="text-xs font-semibold text-blue-600 hover:text-blue-700 flex items-center gap-1">
+              Barchasini ko'rish <span class="material-symbols-outlined text-sm">arrow_forward</span>
+            </button>
+          </div>
+
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 text-slate-400 text-[11px] font-bold uppercase tracking-wider">
+                  <th class="py-2.5 px-4">Mijoz</th>
+                  <th class="py-2.5 px-4">Berilgan Sana</th>
+                  <th class="py-2.5 px-4">Qaytarish Muddati</th>
+                  <th class="py-2.5 px-4 text-right">Summa</th>
+                  <th class="py-2.5 px-4 text-right">Qoldiq Qarz</th>
+                  <th class="py-2.5 px-4 text-center">Holat</th>
+                </tr>
+              </thead>
+              <tbody id="recent-debts-table-body" class="divide-y divide-slate-100">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 2: MIJOZLAR (CUSTOMERS) -->
+      <!-- ========================================== -->
+      <section id="view-mijozlar" class="view-panel space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="font-display text-2xl font-bold text-slate-900">Mijozlar Portfeli</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Mijozlar ro'yxati, kredit limitlari va qarz qoldiqlari nazorati</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="openModal('modal-new-customer')" type="button" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold shadow hover:bg-blue-500 transition-all">
+              <span class="material-symbols-outlined text-base">person_add</span>
+              <span>+ Yangi Mijoz Qo'shish</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Table Container -->
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 text-slate-400 text-[11px] font-bold uppercase tracking-wider">
+                  <th class="py-3 px-4">Mijoz F.I.O</th>
+                  <th class="py-3 px-4">Telefon</th>
+                  <th class="py-3 px-4">Filial</th>
+                  <th class="py-3 px-4 text-right">Kredit Limiti</th>
+                  <th class="py-3 px-4 text-right">Jami Qoldiq Qarz</th>
+                  <th class="py-3 px-4 text-center">Holat</th>
+                  <th class="py-3 px-4 text-right">Amallar</th>
+                </tr>
+              </thead>
+              <tbody id="customers-table-body" class="divide-y divide-slate-100">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 3: QARZLAR (DEBTS REGISTRY) -->
+      <!-- ========================================== -->
+      <section id="view-qarzlar" class="view-panel space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="font-display text-2xl font-bold text-slate-900">Qarz Majburiyatlari Reyestri</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Barcha tuzilgan qarz bitimlari, to'lov muddatlari va qoldiqlar</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="openNewDebtModal()" type="button" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-blue-600 text-white text-xs font-semibold shadow hover:bg-blue-500 transition-all">
+              <span class="material-symbols-outlined text-base">add_circle</span>
+              <span>+ Yangi Qarz Bitimi</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Status Filter Tabs -->
+        <div class="flex items-center gap-2 overflow-x-auto pb-1">
+          <button onclick="loadDebtsData('ALL')" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus:bg-blue-600 focus:text-white">Barchasi</button>
+          <button onclick="loadDebtsData('UNPAID')" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus:bg-blue-600 focus:text-white">To'lanmagan</button>
+          <button onclick="loadDebtsData('PARTIALLY_PAID')" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus:bg-blue-600 focus:text-white">Qisman to'langan</button>
+          <button onclick="loadDebtsData('OVERDUE')" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus:bg-blue-600 focus:text-white">Muddati o'tgan</button>
+          <button onclick="loadDebtsData('PAID')" class="px-3.5 py-1.5 rounded-xl bg-white border border-slate-200 text-xs font-semibold text-slate-700 shadow-sm hover:bg-slate-50 focus:bg-blue-600 focus:text-white">To'langan</button>
+        </div>
+
+        <!-- Debts Table -->
+        <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+          <div class="overflow-x-auto">
+            <table class="w-full text-left border-collapse text-sm">
+              <thead>
+                <tr class="border-b border-slate-200 text-slate-400 text-[11px] font-bold uppercase tracking-wider">
+                  <th class="py-3 px-4">Mijoz & Tavsif</th>
+                  <th class="py-3 px-4">Berilgan Sana</th>
+                  <th class="py-3 px-4">To'lov Muddati</th>
+                  <th class="py-3 px-4 text-right">Umumiy Qarz</th>
+                  <th class="py-3 px-4 text-right">To'langan</th>
+                  <th class="py-3 px-4 text-right">Qoldiq Qarz</th>
+                  <th class="py-3 px-4 text-center">Holat</th>
+                  <th class="py-3 px-4 text-right">Amallar</th>
+                </tr>
+              </thead>
+              <tbody id="debts-table-body" class="divide-y divide-slate-100">
+                <!-- Populated via JS -->
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 4: TO'LOVLAR & KVITANSIYA (PAYMENTS) -->
+      <!-- ========================================== -->
+      <section id="view-tolovlar" class="view-panel space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="font-display text-2xl font-bold text-slate-900">Kassa To'lovlari va Kvitansiyalar</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Barcha to'lovlar fiskal kvitansiya raqami bilan himoyalangan</p>
+          </div>
+          <button onclick="openModal('modal-new-payment')" type="button" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-semibold shadow hover:bg-emerald-500 transition-all">
+            <span class="material-symbols-outlined text-base">add_card</span>
+            <span>+ Yangi To'lov Qabul Qilish</span>
+          </button>
+        </div>
+
+        <!-- Split Grid: Payments Table + Printable Receipt Card -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+          
+          <!-- Payments List (7 cols) -->
+          <div class="lg:col-span-8 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm">
+            <h2 class="font-display font-bold text-base text-slate-900 mb-4">To'lovlar Tarixi</h2>
+            <div class="overflow-x-auto">
+              <table class="w-full text-left border-collapse text-sm">
+                <thead>
+                  <tr class="border-b border-slate-200 text-slate-400 text-[11px] font-bold uppercase tracking-wider">
+                    <th class="py-3 px-4">Kvitansiya #</th>
+                    <th class="py-3 px-4">Sana</th>
+                    <th class="py-3 px-4">Mijoz</th>
+                    <th class="py-3 px-4 text-center">Usul</th>
+                    <th class="py-3 px-4 text-right">Summa</th>
+                    <th class="py-3 px-4 text-center">Holat</th>
+                    <th class="py-3 px-4 text-right">Harakat</th>
+                  </tr>
+                </thead>
+                <tbody id="payments-table-body" class="divide-y divide-slate-100">
+                  <!-- Populated via JS -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Printable Receipt Card Preview (4 cols) -->
+          <div class="lg:col-span-4 p-6 rounded-2xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100 mb-4">
+              <span class="font-display font-bold text-sm text-slate-800 flex items-center gap-1.5">
+                <span class="material-symbols-outlined text-emerald-600 text-base">receipt_long</span> Kvitansiya Ko'rinishi
+              </span>
+              <button onclick="window.print()" type="button" class="px-2.5 py-1 rounded-lg bg-blue-50 text-blue-700 hover:bg-blue-100 text-xs font-semibold flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">print</span> Chop etish
+              </button>
+            </div>
+
+            <div id="printable-receipt-card">
+              <!-- Live Receipt Content Rendered here -->
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 5: HISOBOTLAR (REPORTS) -->
+      <!-- ========================================== -->
+      <section id="view-hisobotlar" class="view-panel space-y-6">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h1 class="font-display text-2xl font-bold text-slate-900">Moliyaviy Xulosa & Eksportlar</h1>
+            <p class="text-sm text-slate-500 mt-0.5">Buxgalteriya va tahlil uchun tayyor jadvallar hamda eksport fayllari</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button onclick="exportReport('debts', 'xlsx')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-emerald-600 text-white text-xs font-semibold shadow hover:bg-emerald-500 transition-all">
+              <span class="material-symbols-outlined text-base">table_view</span>
+              <span>Excel (.xlsx) Yuklash</span>
+            </button>
+            <button onclick="exportReport('debts', 'csv')" class="flex items-center gap-1.5 px-4 py-2 rounded-xl bg-slate-800 text-white text-xs font-semibold shadow hover:bg-slate-700 transition-all">
+              <span class="material-symbols-outlined text-base">description</span>
+              <span>CSV Yuklash</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Yaratilgan Jami Qarz</span>
+            <div id="rep-total-debt" class="font-display text-2xl font-bold text-slate-900 font-tabular">-</div>
+            <div class="text-xs text-slate-500">Mijozlarga berilgan barcha tovar va xizmatlar qiymati</div>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Yig'ilgan Jami To'lovlar</span>
+            <div id="rep-total-collected" class="font-display text-2xl font-bold text-emerald-600 font-tabular">-</div>
+            <div class="text-xs text-slate-500">
+              Naqd: <span id="rep-cash-collected" class="font-semibold text-slate-700">-</span> | 
+              Karta: <span id="rep-card-collected" class="font-semibold text-slate-700">-</span>
+            </div>
+          </div>
+
+          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-3">
+            <span class="text-xs font-bold uppercase tracking-wider text-slate-400">Hozirgi Qoldiq Majburiyat</span>
+            <div id="rep-current-debt" class="font-display text-2xl font-bold text-red-600 font-tabular">-</div>
+            <div class="text-xs text-slate-500">Faol qarzdorlar soni: <span id="rep-active-debtors" class="font-semibold text-slate-700">-</span></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 6: TELEGRAM BOT INTEGRATSIYASI -->
+      <!-- ========================================== -->
+      <section id="view-telegram" class="view-panel space-y-6">
+        <div>
+          <h1 class="font-display text-2xl font-bold text-slate-900">Telegram Bot Integratsiyasi</h1>
+          <p class="text-sm text-slate-500 mt-0.5">Do'kon egalari va mijozlar uchun xabarnomalar va bot orqali tezkor boshqaruv</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+          
+          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-2xl bg-sky-500 text-white flex items-center justify-center shadow-md">
+                <span class="material-symbols-outlined text-2xl">send</span>
+              </div>
+              <div>
+                <h2 class="font-display font-bold text-lg text-slate-900">@qarzdaftar_bot</h2>
+                <span class="text-xs text-sky-600 font-semibold">Rasmiy aiogram 3 boti</span>
+              </div>
+            </div>
+
+            <p class="text-sm text-slate-600 leading-relaxed">
+              Hisobingizni Telegram bot bilan bog'lash orqali yangi to'lovlar, muddati kelgan qarzlar va kunlik tushum hisobotlarini to'g'ridan-to'g'ri Telegramingizda qabul qiling.
+            </p>
+
+            <div id="telegram-linked-status"></div>
+
+            <div class="p-5 rounded-xl bg-slate-50 border border-slate-200 flex flex-col items-center text-center space-y-2">
+              <span class="text-xs uppercase tracking-wider font-semibold text-slate-400">Sizning 6 xonali ulanish kodingiz</span>
+              <div id="telegram-code-display" class="font-mono text-3xl font-extrabold tracking-widest text-slate-900 py-2">
+                ------
+              </div>
+              <span id="telegram-code-timer" class="text-xs text-slate-500">Kod yaratish uchun quyidagi tugmani bosing</span>
+              <button onclick="generateTelegramCode()" type="button" class="mt-2 px-4 py-2 rounded-xl bg-sky-600 text-white text-xs font-semibold hover:bg-sky-500 transition-all shadow-sm">
+                Yangi Kod Olish
+              </button>
+            </div>
+          </div>
+
+          <!-- Bot Usage Instructions -->
+          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <h2 class="font-display font-bold text-base text-slate-900">Ulanish Yo'riqnomasi</h2>
+            <ol class="space-y-3 text-sm text-slate-600 list-decimal list-inside">
+              <li>Telegramda <b>@qarzdaftar_bot</b> botini toping yoki oching.</li>
+              <li>Botga <code>/start</code> buyrug'ini yuboring.</li>
+              <li>Chap tarafdagi oynadan <b>"Yangi Kod Olish"</b> tugmasini bosib, 6 xonali kodni botga yuboring.</li>
+              <li>Profil muvaffaqiyatli bog'lanadi va bot sizga do'kon menyusini taqdim etadi.</li>
+            </ol>
+            
+            <div class="pt-2 border-t border-slate-100 text-xs text-slate-500">
+              <b>Bot imkoniyatlari:</b> Qarz qoldig'ini bilish, kvitansiya qidirish, kunlik xulosa hisobotini olish.
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ========================================== -->
+      <!-- VIEW 7: SOZLAMALAR (SETTINGS) -->
+      <!-- ========================================== -->
+      <section id="view-sozlamalar" class="view-panel space-y-6">
+        <div>
+          <h1 class="font-display text-2xl font-bold text-slate-900">Do'kon va Tizim Sozlamalari</h1>
+          <p class="text-sm text-slate-500 mt-0.5">Do'kon parametrlari, shaxsiy profil va hisob xavfsizligi</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
+          
+          <!-- Card 1: Do'kon va Profil Ma'lumotlari -->
+          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
+              <span class="material-symbols-outlined text-blue-600">storefront</span>
+              <h2 class="font-display font-bold text-base text-slate-900">Do'kon va Profil Ma'lumotlari</h2>
+            </div>
+
+            <div class="space-y-3.5">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Faol Do'kon</label>
+                <input id="settings-shop-name" type="text" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold bg-slate-50 text-slate-800" readonly>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Filial</label>
+                  <input id="settings-shop-branch" type="text" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-slate-50 text-slate-800" readonly>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Asosiy Valyuta</label>
+                  <input id="settings-shop-currency" type="text" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-slate-50 text-slate-800 font-bold" readonly>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Foydalanuvchi Emaili</label>
+                <input id="settings-user-email" type="text" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-slate-50 text-slate-800" readonly>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Tizimdagi Rol</label>
+                  <input id="settings-user-role" type="text" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-slate-50 text-slate-800 font-semibold" readonly>
+                </div>
+                <div>
+                  <label class="block text-xs font-semibold text-slate-700 mb-1">Telefon</label>
+                  <input id="settings-user-phone" type="text" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm bg-slate-50 text-slate-800 font-tabular" readonly>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Backend API Server</label>
+                <input type="text" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs font-mono bg-slate-50 text-slate-600" value="http://127.0.0.1:8000/api/v1/" readonly>
+              </div>
+            </div>
+          </div>
+
+          <!-- Card 2: Xavfsizlik: Parolni O'zgartirish -->
+          <div class="p-6 rounded-2xl bg-white border border-slate-200 shadow-sm space-y-4">
+            <div class="flex items-center gap-2 pb-3 border-b border-slate-100">
+              <span class="material-symbols-outlined text-amber-600">lock_reset</span>
+              <div>
+                <h2 class="font-display font-bold text-base text-slate-900">Xavfsizlik: Parolni O'zgartirish</h2>
+                <p class="text-xs text-slate-500">Admin va xodimlar o'z parollarini istalgan payt almashtirishlari mumkin</p>
+              </div>
+            </div>
+
+            <form id="form-change-password" class="space-y-4">
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Joriy (eski) parol *</label>
+                <div class="relative">
+                  <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-lg">key</span>
+                  <input id="chg-old-password" type="password" placeholder="Hozirgi parolingiz" class="w-full pl-10 pr-3 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/20 focus:outline-none" required>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Yangi maxfiy parol *</label>
+                <div class="relative">
+                  <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-lg">lock</span>
+                  <input id="chg-new-password" type="password" minlength="8" placeholder="Kamida 8 ta belgi" class="w-full pl-10 pr-3 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/20 focus:outline-none" required>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-slate-700 mb-1">Yangi parolni tasdiqlash *</label>
+                <div class="relative">
+                  <span class="material-symbols-outlined absolute left-3 top-2.5 text-slate-400 text-lg">check_circle</span>
+                  <input id="chg-new-confirm" type="password" minlength="8" placeholder="Yangi parolni qayta kiriting" class="w-full pl-10 pr-3 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/20 focus:outline-none" required>
+                </div>
+              </div>
+
+              <div class="pt-2">
+                <button type="submit" class="w-full py-2.5 rounded-xl bg-blue-600 text-white font-bold text-sm shadow hover:bg-blue-500 transition-all flex items-center justify-center gap-2">
+                  <span class="material-symbols-outlined text-sm">save</span>
+                  <span>Parolni Yangilash</span>
+                </button>
+              </div>
+            </form>
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 1: YANGI QARZ BITIMI -->
+  <!-- ========================================== -->
+  <div id="modal-new-debt" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4 animate-in">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="font-display font-bold text-lg text-slate-900">+ Yangi Qarz Bitimi</h3>
+        <button onclick="closeModal('modal-new-debt')" class="text-slate-400 hover:text-slate-700">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="form-new-debt" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Mijozni tanlang *</label>
+          <select id="debt-customer-select" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm focus:ring-2 focus:ring-blue-500/20" required>
+            <!-- Populated via JS -->
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Qarz summasi (UZS) *</label>
+          <input id="debt-amount" type="number" step="1000" min="1000" placeholder="0" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-tabular font-bold" required>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Tovar / Tavsif</label>
+          <input id="debt-desc" type="text" placeholder="Tovar yoki xizmat tavsifi" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Qaytarish muddati</label>
+          <input id="debt-due-date" type="date" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-new-debt')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Bekor qilish</button>
+          <button type="submit" class="px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white hover:bg-blue-500 shadow">Qarzni Tasdiqlash</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 2: TO'LOV QABUL QILISH -->
+  <!-- ========================================== -->
+  <div id="modal-new-payment" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="font-display font-bold text-lg text-slate-900">+ To'lov Qabul Qilish (Kassa)</h3>
+        <button onclick="closeModal('modal-new-payment')" class="text-slate-400 hover:text-slate-700">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="form-new-payment" class="space-y-4">
+        <input type="hidden" id="pay-debt-id">
+        
+        <div class="p-3 rounded-xl bg-slate-50 border border-slate-100 text-xs">
+          <div class="flex justify-between mb-1">
+            <span class="text-slate-500">Mijoz:</span>
+            <span id="pay-customer-name-display" class="font-bold text-slate-800">-</span>
+          </div>
+          <div class="flex justify-between">
+            <span class="text-slate-500">Qoldiq qarz:</span>
+            <span id="pay-remaining-balance-display" class="font-bold text-red-600">-</span>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">To'lov usuli *</label>
+          <select id="pay-method" onchange="document.getElementById('mixed-portion-container').style.display = this.value === 'MIXED' ? 'grid' : 'none';" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold" required>
+            <option value="CASH">Naqd pul (CASH)</option>
+            <option value="CARD">Bank kartasi / Terminal (CARD)</option>
+            <option value="MIXED">Aralash to'lov (Naqd + Karta)</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">To'lanayotgan summa (UZS) *</label>
+          <input id="pay-amount" type="number" step="1000" min="1000" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-bold font-tabular text-emerald-600" required>
+        </div>
+
+        <!-- Mixed split inputs -->
+        <div id="mixed-portion-container" style="display: none;" class="grid grid-cols-2 gap-3 p-3 rounded-xl bg-slate-50 border border-slate-200">
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Naqd qismi (UZS)</label>
+            <input id="pay-cash-portion" type="number" step="1000" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-tabular">
+          </div>
+          <div>
+            <label class="block text-[11px] font-semibold text-slate-600 mb-1">Karta qismi (UZS)</label>
+            <input id="pay-card-portion" type="number" step="1000" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-tabular">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Izoh / Kassa eslatmasi</label>
+          <input id="pay-notes" type="text" placeholder="To'lov bo'yicha izoh" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-new-payment')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Bekor qilish</button>
+          <button type="submit" class="px-4 py-2 rounded-xl text-xs font-semibold bg-emerald-600 text-white hover:bg-emerald-500 shadow">To'lovni Qabul Qilish</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 3: YANGI MIJOZ QO'SHISH -->
+  <!-- ========================================== -->
+  <div id="modal-new-customer" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="font-display font-bold text-lg text-slate-900">+ Yangi Mijoz Qo'shish</h3>
+        <button onclick="closeModal('modal-new-customer')" class="text-slate-400 hover:text-slate-700">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="form-new-customer" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">F.I.O *</label>
+          <input id="cust-name" type="text" placeholder="Mijoz to'liq ismi" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold" required>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Telefon raqami *</label>
+          <input id="cust-phone" type="text" placeholder="+998901234567" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-tabular" required>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Kredit limiti (UZS)</label>
+          <input id="cust-limit" type="number" step="100000" placeholder="0" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-tabular">
+          <span class="text-[11px] text-slate-400 mt-0.5">Ushbu summadan ortiq qarz berish cheklanadi</span>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Qo'shimcha ma'lumot</label>
+          <input id="cust-notes" type="text" placeholder="Manzil va qo'shimcha ma'lumotlar" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-new-customer')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Bekor qilish</button>
+          <button type="submit" class="px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white hover:bg-blue-500 shadow">Saqlash</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 4: AUTH (KIRISH & RO'YXATDAN O'TISH) -->
+  <!-- ========================================== -->
+  <div id="modal-auth" class="fixed inset-0 bg-slate-950/90 backdrop-blur-xl z-[9990] flex items-center justify-center p-4">
+    <div class="auth-modal-card bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl border border-slate-100 space-y-6">
+      
+      <!-- Brand & Header -->
+      <div class="auth-header-box text-center space-y-2">
+        <div class="auth-header-icon inline-flex items-center justify-center w-12 h-12 rounded-2xl bg-blue-600 text-white shadow-lg shadow-blue-500/30">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="3" />
+            <path d="M16 12h.01" />
+            <path d="M2 10h20" />
+          </svg>
+        </div>
+        <h2 class="auth-header-title font-display font-extrabold text-2xl text-slate-900 tracking-tight">Qarz Daftar <span class="text-blue-600">PRO</span></h2>
+        <p class="auth-header-sub text-xs text-slate-500">Kassa va qarzlar hisobini yuritishning yagona tizimi</p>
+      </div>
+
+      <!-- Auth Tabs Switcher -->
+      <div class="auth-tabs-bar flex p-1 bg-slate-100 rounded-xl">
+        <button id="tab-btn-login" type="button" onclick="switchAuthTab('login')" class="auth-tab-btn active flex-1 py-2 text-xs font-bold rounded-lg transition-all bg-white text-slate-900 shadow-sm">
+          Kirish
+        </button>
+        <button id="tab-btn-register" type="button" onclick="switchAuthTab('register')" class="auth-tab-btn flex-1 py-2 text-xs font-bold rounded-lg transition-all text-slate-500 hover:text-slate-900">
+          Ro'yxatdan o'tish
+        </button>
+      </div>
+
+      <!-- Admin Access Hint Card -->
+      <div id="auth-admin-hint" class="auth-admin-card p-3 rounded-xl bg-blue-50 border border-blue-200/80 text-xs text-blue-900 flex items-start gap-2.5">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; margin-top: 2px;">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          <circle cx="12" cy="10" r="3"/>
+        </svg>
+        <div>
+          <span class="font-bold">Bosh Admin:</span> <code class="font-bold text-blue-800">gibritxcoding@gmail.com</code>
+          <p class="text-[11px] text-blue-700 mt-0.5">Dastlabki parol: <code class="bg-white px-1.5 py-0.5 rounded border border-blue-200 font-bold text-slate-800">Admin2026!</code></p>
+        </div>
+      </div>
+
+      <!-- Form 1: Kirish (Login) -->
+      <form id="form-login" onsubmit="handleLoginSubmit(event); return false;" class="space-y-4">
+        <div id="login-error-alert" class="hidden auth-alert-error">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span id="login-error-text"></span>
+        </div>
+
+        <div class="auth-field-group">
+          <label class="auth-field-label block text-xs font-semibold text-slate-700 mb-1">Elektron pochta (Email) *</label>
+          <div class="auth-input-container relative">
+            <span class="auth-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <input id="login-email" type="email" value="gibritxcoding@gmail.com" placeholder="gibritxcoding@gmail.com" class="auth-input-box w-full" required>
+          </div>
+        </div>
+
+        <div class="auth-field-group">
+          <div class="auth-field-label flex items-center justify-between mb-1">
+            <span class="text-xs font-semibold text-slate-700">Maxfiy parol *</span>
+            <button type="button" onclick="switchAuthTab('forgot')" class="text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors">Parolni unutdingizmi?</button>
+          </div>
+          <div class="auth-input-container relative">
+            <span class="auth-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </span>
+            <input id="login-password" type="password" value="Admin2026!" placeholder="Admin2026!" class="auth-input-box w-full" required>
+            <button type="button" onclick="togglePasswordVisibility('login-password', this)" class="auth-eye-btn" title="Parolni ko'rsatish/yashirish">
+              <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+              <svg class="eye-closed hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                <line x1="2" y1="2" x2="22" y2="22"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button id="btn-login-submit" type="submit" onclick="handleLoginSubmit(event)" class="auth-primary-btn">
+          <span>Tizimga Kirish</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="5" y1="12" x2="19" y2="12"/>
+            <polyline points="12 5 19 12 12 19"/>
+          </svg>
+        </button>
+      </form>
+
+      <!-- Form 2: Ro'yxatdan o'tish (Register) -->
+      <form id="form-register" onsubmit="handleRegisterSubmit(event); return false;" class="space-y-3.5 hidden">
+        <div id="register-error-alert" class="hidden auth-alert-error">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#DC2626" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span id="register-error-text"></span>
+        </div>
+
+        <div id="register-success-alert" class="hidden auth-alert-success">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0;">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+          <span id="register-success-text"></span>
+        </div>
+
+        <div class="auth-field-group">
+          <label class="auth-field-label block text-xs font-semibold text-slate-700 mb-1">F.I.O (Ism, familiya) *</label>
+          <div class="auth-input-container relative">
+            <span class="auth-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+            </span>
+            <input id="reg-name" type="text" placeholder="Ism va familiya" class="auth-input-box w-full" required>
+          </div>
+        </div>
+
+        <div class="auth-field-group">
+          <label class="auth-field-label block text-xs font-semibold text-slate-700 mb-1">Telefon raqam *</label>
+          <div class="auth-input-container relative">
+            <span class="auth-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+              </svg>
+            </span>
+            <input id="reg-phone" type="text" placeholder="+998901234567" class="auth-input-box w-full font-tabular" required>
+          </div>
+        </div>
+
+        <div class="auth-field-group">
+          <label class="auth-field-label block text-xs font-semibold text-slate-700 mb-1">Elektron pochta (Email) *</label>
+          <div class="auth-input-container relative">
+            <span class="auth-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <input id="reg-email" type="email" placeholder="admin@misol.uz" class="auth-input-box w-full" required>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-2">
+          <div class="auth-field-group">
+            <label class="auth-field-label block text-xs font-semibold text-slate-700 mb-1">Parol *</label>
+            <div class="auth-input-container relative">
+              <span class="auth-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </span>
+              <input id="reg-password" type="password" placeholder="••••••••" class="auth-input-box w-full" required minlength="8">
+              <button type="button" onclick="togglePasswordVisibility('reg-password', this)" class="auth-eye-btn" title="Parolni ko'rsatish/yashirish">
+                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="eye-closed hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                  <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                  <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                  <line x1="2" y1="2" x2="22" y2="22"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+          <div class="auth-field-group">
+            <label class="auth-field-label block text-xs font-semibold text-slate-700 mb-1">Tasdiqlash *</label>
+            <div class="auth-input-container relative">
+              <span class="auth-input-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="m9 12 2 2 4-4"/>
+                  <circle cx="12" cy="12" r="10"/>
+                </svg>
+              </span>
+              <input id="reg-password-confirm" type="password" placeholder="••••••••" class="auth-input-box w-full" required minlength="8">
+              <button type="button" onclick="togglePasswordVisibility('reg-password-confirm', this)" class="auth-eye-btn" title="Parolni ko'rsatish/yashirish">
+                <svg class="eye-open" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+                <svg class="eye-closed hidden" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/>
+                  <path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/>
+                  <path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/>
+                  <line x1="2" y1="2" x2="22" y2="22"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <button id="btn-register-submit" type="submit" class="auth-primary-btn" style="background: #059669 !important;">
+          <span>Yangi Hisob Ochish</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"/>
+          </svg>
+        </button>
+      </form>
+
+      <!-- Form 3: Parolni Tiklash (Forgot Password) -->
+      <form id="form-forgot" onsubmit="handleForgotPasswordSubmit(event); return false;" class="space-y-4 hidden">
+        <div class="p-3 rounded-xl bg-amber-50 border border-amber-200 text-xs text-amber-900">
+          Elektron pochtangizni kiriting. Agar hisob mavjud bo'lsa, parolni tiklash havolasi yuboriladi.
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Elektron pochta (Email) *</label>
+          <div class="auth-input-container relative">
+            <span class="auth-input-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="2" y="4" width="20" height="16" rx="2"/>
+                <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+              </svg>
+            </span>
+            <input id="forgot-email" type="email" placeholder="gibritxcoding@gmail.com" class="auth-input-box w-full" required>
+          </div>
+        </div>
+
+        <button type="submit" class="auth-primary-btn">
+          <span>Tiklash Havolasini Yuborish</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"/>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+          </svg>
+        </button>
+
+        <div class="text-center pt-2">
+          <button type="button" onclick="switchAuthTab('login')" class="text-xs font-semibold text-slate-500 hover:text-slate-900 transition-colors">
+            ← Kirish oynasiga qaytish
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 5: YANGI DO'KON YARATISH -->
+  <!-- ========================================== -->
+  <div id="modal-new-shop" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="font-display font-bold text-lg text-slate-900">+ Yangi Do'kon Ochish</h3>
+        <button onclick="closeModal('modal-new-shop')" class="text-slate-400 hover:text-slate-700">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <form id="form-new-shop" class="space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Do'kon nomi *</label>
+          <input id="shop-create-name" type="text" placeholder="Do'kon nomi" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold" required>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Telefon raqami *</label>
+          <input id="shop-create-phone" type="text" placeholder="+998901234567" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-tabular" required>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">Do'kon manzili</label>
+          <input id="shop-create-address" type="text" placeholder="Do'kon manzili" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+        </div>
+
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Asosiy filial</label>
+            <input id="shop-create-branch" type="text" value="Asosiy filial #01" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">Hisob valyutasi</label>
+            <select id="shop-create-currency" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-sm font-semibold">
+              <option value="UZS" selected>UZS (So'm)</option>
+              <option value="USD">USD (Dollar)</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
+          <button type="button" onclick="closeModal('modal-new-shop')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Bekor qilish</button>
+          <button type="submit" class="px-4 py-2 rounded-xl text-xs font-semibold bg-blue-600 text-white hover:bg-blue-500 shadow">Do'konni Saqlash</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================================== -->
+  <!-- MODAL 6: DO'KONNI TANLASH / ALMASHTIRISH -->
+  <!-- ========================================== -->
+  <div id="modal-shop-selector" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+    <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+        <h3 class="font-display font-bold text-lg text-slate-900">Do'konlarim Ro'yxati</h3>
+        <button onclick="closeModal('modal-shop-selector')" class="text-slate-400 hover:text-slate-700">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div id="shop-selector-list" class="space-y-2 max-h-64 overflow-y-auto">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex items-center justify-between">
+        <button onclick="closeModal('modal-shop-selector'); openModal('modal-new-shop');" type="button" class="flex items-center gap-1.5 px-3 py-2 rounded-xl bg-blue-50 text-blue-700 text-xs font-semibold hover:bg-blue-100 transition-all">
+          <span class="material-symbols-outlined text-base">add_business</span>
+          <span>+ Yangi Do'kon Qo'shish</span>
+        </button>
+        <button onclick="closeModal('modal-shop-selector')" type="button" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Yopish</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Global Toast Notifications Container -->
+  <div id="toast-container"></div>
+
+  <!-- Application Logic -->
+  <script src="app.js"></script>
+</body>
+</html>

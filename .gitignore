@@ -1,0 +1,44 @@
+# Python & Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+*.py[cod]
+*$py.class
+__pycache__/
+
+# Django & Databases
+*.sqlite3
+db.sqlite3
+media/
+staticfiles/
+
+# Environment & Secrets
+.env
+.env.local
+*.env
+
+# Testing & Coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Node & Frontend
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE & OS files
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+# Temporary test artifacts
+*.png
+test_*.js
+debug_*.js
+check_tags.py
