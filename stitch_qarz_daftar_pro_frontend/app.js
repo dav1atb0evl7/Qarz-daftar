@@ -4,7 +4,12 @@
  */
 
 const API_BASE = (() => {
-  if (window.location.port === '8000') return '/api/v1';
+  if (window.API_BASE_URL) return window.API_BASE_URL;
+  // If served directly from Django (on port 8000 locally or on Render/custom domain where port is standard 80/443)
+  if (window.location.port === '8000' || (window.location.port === '' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1')) {
+    return '/api/v1';
+  }
+  // Fallback for local frontend dev servers (e.g. port 3000, 5173, etc.)
   const host = window.location.hostname || '127.0.0.1';
   return `http://${host}:8000/api/v1`;
 })();
